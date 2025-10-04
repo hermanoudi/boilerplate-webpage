@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{COMPANY_NAME}} - Moda & Estilo</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/images/logo/favicon.png">
+    <link rel="shortcut icon" type="image/png" href="assets/images/logo/favicon.png">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <div class="logo">
+                    <div class="logo-text">
+                        <h1>
+                            <span class="logo-main">{{COMPANY_NAME}}</span>
+                        </h1>
+                        <p class="logo-subtitle">Moda & Estilo</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <span class="collection-label">Venham conferir as novas coleções.</span>
+                <h2 class="collection-title">Novidades</h2>
+                <button class="cta-btn" onclick="openWhatsApp('Olá! Gostaria de conhecer as novidades da {{COMPANY_NAME}}.')">
+                    <i class="fab fa-whatsapp" style="margin-right:8px"></i>
+                    CONFIRA
+                </button>
+            </div>
+            <div class="hero-image">
+                <img src="assets/images/hero-model.jpg" alt="Modelo da coleção" id="heroImage">
+            </div>
+        </div>
+        <div class="hero-indicators">
+            <span class="indicator active"></span>
+            <span class="indicator"></span>
+            <span class="indicator"></span>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="categories">
+        <div class="container">
+            <div class="categories-scroll" id="categoriesScroll">
+                <div class="category-item active" data-category="all">
+                    <i class="fa fa-camera"></i>
+                    <span>Looks</span>
+                </div>
+                <div class="category-item" data-category="masculino">
+                    <i class="fa fa-male"></i>
+                    <span>Masculino</span>
+                </div>
+                <div class="category-item" data-category="feminino">
+                    <i class="fas fa-female"></i>
+                    <span>Feminino</span>
+                </div>
+                <div class="category-item" data-category="infantil">
+                    <i class="fa fa-child"></i>
+                    <span>Infantil</span>
+                </div>
+                <div class="category-item" data-category="acessorios">
+                    <i class="fa fa-shopping-bag"></i>
+                    <span>Acessórios</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section class="products">
+        <div class="container">
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <div class="modal-body" id="modalBody">
+                <!-- Product details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-content">
+            <div class="mobile-menu-header">
+                <div class="logo-text">
+                    <h3>
+                        <span class="logo-main" style="font-size: 28px;">{{COMPANY_NAME}}</span>
+                    </h3>
+                    <p class="logo-subtitle" style="font-size: 10px;">Moda & Estilo</p>
+                </div>
+                <button class="close-menu" id="closeMenu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="mobile-nav">
+                <a href="#" class="mobile-nav-item mobile-category-item active" data-category="all">
+                    <i class="fa fa-camera"></i>
+                    <span>Looks</span>
+                </a>
+                <a href="#" class="mobile-nav-item mobile-category-item" data-category="masculino">
+                    <i class="fa fa-male"></i>
+                    <span>Masculino</span>
+                </a>
+                <a href="#" class="mobile-nav-item mobile-category-item" data-category="feminino">
+                    <i class="fas fa-female"></i>
+                    <span>Feminino</span>
+                </a>
+                <a href="#" class="mobile-nav-item mobile-category-item" data-category="infantil">
+                    <i class="fa fa-child"></i>
+                    <span>Infantil</span>
+                </a>
+                <a href="#" class="mobile-nav-item mobile-category-item" data-category="acessorios">
+                    <i class="fa fa-shopping-bag"></i>
+                    <span>Acessórios</span>
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
