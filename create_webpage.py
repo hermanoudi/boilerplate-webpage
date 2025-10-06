@@ -80,7 +80,13 @@ def create_project(project_name, company_name=None, primary_color='#dc2626'):
     # Get paths
     script_dir = Path(__file__).parent
     template_dir = script_dir / 'templates'
-    target_dir = Path.cwd()
+    target_dir = Path.cwd() / project_name
+
+    # Check if target directory already exists
+    if target_dir.exists():
+        print(f"❌ Erro: O diretório '{project_name}' já existe!")
+        print(f"   Caminho: {target_dir}")
+        sys.exit(1)
 
     print(f"📦 Criando projeto: {project_name}")
     print(f"🏢 Empresa: {company_name}")
@@ -92,9 +98,12 @@ def create_project(project_name, company_name=None, primary_color='#dc2626'):
     # Create directory structure
     directories = [
         'api',
+        'api/admin',
         'assets/css',
         'assets/js',
         'assets/images/products',
+        'admin/css',
+        'admin/js',
         'database',
         'logs'
     ]
@@ -107,9 +116,20 @@ def create_project(project_name, company_name=None, primary_color='#dc2626'):
         ('index.html', 'index.html'),
         ('assets/css/style.css', 'assets/css/style.css'),
         ('assets/js/script.js', 'assets/js/script.js'),
+        ('assets/js/color-mapping.js', 'assets/js/color-mapping.js'),
         ('api/products.php', 'api/products.php'),
+        ('api/auth.php', 'api/auth.php'),
+        ('api/JWT.php', 'api/JWT.php'),
+        ('api/admin/products.php', 'api/admin/products.php'),
+        ('api/admin/upload.php', 'api/admin/upload.php'),
+        ('admin/login.html', 'admin/login.html'),
+        ('admin/index.html', 'admin/index.html'),
+        ('admin/css/admin.css', 'admin/css/admin.css'),
+        ('admin/js/admin.js', 'admin/js/admin.js'),
+        ('admin/js/login.js', 'admin/js/login.js'),
         ('database/schema.sql', 'database/schema.sql'),
         ('database/seed.sql', 'database/seed.sql'),
+        ('database/admin_schema.sql', 'database/admin_schema.sql'),
         ('config/.env.example', '.env.example'),
         ('config/config.php', 'config.php'),
         ('config/.htaccess', '.htaccess'),
@@ -122,8 +142,13 @@ def create_project(project_name, company_name=None, primary_color='#dc2626'):
         src = template_dir / src_path
         dst = target_dir / dst_path
         if src.exists():
-            copy_template_file(src, dst, variables)
-            print(f"  ✓ {dst_path}")
+            try:
+                copy_template_file(src, dst, variables)
+                print(f"  ✓ {dst_path}")
+            except Exception as e:
+                print(f"  ❌ Erro ao copiar {dst_path}: {e}")
+        else:
+            print(f"  ⚠️  Template não encontrado: {src_path}")
 
     # Copy utility scripts
     utility_files = ['create_images.py', 'test-local.sh', 'setup-apache.sh']
@@ -132,9 +157,14 @@ def create_project(project_name, company_name=None, primary_color='#dc2626'):
         src = template_dir / file_name
         dst = target_dir / file_name
         if src.exists():
-            copy_template_file(src, dst, variables)
-            os.chmod(dst, 0o755)
-            print(f"  ✓ {file_name}")
+            try:
+                copy_template_file(src, dst, variables)
+                os.chmod(dst, 0o755)
+                print(f"  ✓ {file_name}")
+            except Exception as e:
+                print(f"  ❌ Erro ao copiar {file_name}: {e}")
+        else:
+            print(f"  ⚠️  Script não encontrado: {file_name}")
 
     # Create .gitignore
     gitignore_content = """.env
@@ -165,6 +195,7 @@ Vitrine virtual responsiva para {company_name}.
    ```bash
    mysql -u root -p < database/schema.sql
    mysql -u root -p {db_name} < database/seed.sql
+   mysql -u root -p {db_name} < database/admin_schema.sql
    ```
 
 3. **Iniciar servidor:**
@@ -172,7 +203,11 @@ Vitrine virtual responsiva para {company_name}.
    php -S localhost:8080
    ```
 
-4. **Acessar:** http://localhost:8080
+4. **Acessar:**
+   - Site: http://localhost:8080
+   - Admin: http://localhost:8080/admin/login.html
+     - Usuário: `admin`
+     - Senha: `admin123`
 
 ## Comandos
 
@@ -195,14 +230,60 @@ Veja `.env.example` para referência.
 """
     (target_dir / 'README.md').write_text(readme_content)
 
+    # Generate placeholder images
+    print("\n🖼️  Gerando imagens placeholder...")
+    try:
+        import subprocess
+        create_images_script = target_dir / 'create_images.py'
+        if create_images_script.exists():
+            result = subprocess.run(
+                ['python3', str(create_images_script)],
+                cwd=str(target_dir),
+                capture_output=True,
+                text=True,
+                timeout=30
+            )
+            if result.returncode == 0:
+                print("  ✓ Imagens placeholder geradas com sucesso")
+            else:
+                print(f"  ⚠️  Erro ao gerar imagens: {result.stderr}")
+                print("  Execute manualmente: python3 create_images.py")
+    except Exception as e:
+        print(f"  ⚠️  Não foi possível gerar imagens automaticamente: {e}")
+        print("  Execute manualmente: python3 create_images.py")
+
+    # Create .env from .env.example
+    print("\n⚙️  Configurando .env...")
+    try:
+        env_example = target_dir / '.env.example'
+        env_file = target_dir / '.env'
+        if env_example.exists():
+            shutil.copy(env_example, env_file)
+            print("  ✓ Arquivo .env criado (edite as credenciais MySQL)")
+        else:
+            print("  ⚠️  .env.example não encontrado")
+    except Exception as e:
+        print(f"  ⚠️  Erro ao criar .env: {e}")
+
     print(f"\n✅ Projeto {project_name} criado com sucesso!")
     print("\n📋 Próximos passos:")
-    print("  1. cp .env.example .env")
-    print("  2. Edite .env com suas credenciais MySQL e WhatsApp")
-    print("  3. mysql -u root -p < database/schema.sql")
-    print(f"  4. mysql -u root -p {db_name} < database/seed.sql")
-    print("  5. php -S localhost:8080")
-    print("\n🌐 Acesse: http://localhost:8080")
+    print("  1. Edite .env com suas credenciais MySQL")
+    print(f"     nano .env")
+    print(f"     DB_PASS=sua_senha_mysql")
+    print("")
+    print("  2. Criar e popular banco de dados:")
+    print(f"     cd {project_name}")
+    print(f"     mysql -u root -p < database/schema.sql")
+    print(f"     mysql -u root -p {db_name} < database/seed.sql")
+    print(f"     mysql -u root -p {db_name} < database/admin_schema.sql")
+    print("")
+    print("  3. Iniciar servidor:")
+    print(f"     php -S localhost:8080")
+    print("\n🌐 Acesse:")
+    print("  - Site: http://localhost:8080")
+    print("  - Admin: http://localhost:8080/admin/login.html")
+    print("    Usuário: admin")
+    print("    Senha: admin123")
 
 def main():
     parser = argparse.ArgumentParser(

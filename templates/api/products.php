@@ -58,8 +58,8 @@ if ($method === 'GET') {
 
         if ($product) {
             // Decode JSON fields
-            $product['colors'] = json_decode($product['colors'], true);
-            $product['sizes'] = json_decode($product['sizes'], true);
+            $product['colors'] = $product['colors'] ? json_decode($product['colors'], true) : null;
+            $product['sizes'] = $product['sizes'] ? json_decode($product['sizes'], true) : null;
             $product['inStock'] = (bool)$product['in_stock'];
             unset($product['in_stock']);
 
@@ -76,8 +76,8 @@ if ($method === 'GET') {
 
         // Decode JSON fields for each product
         $products = array_map(function($product) {
-            $product['colors'] = json_decode($product['colors'], true);
-            $product['sizes'] = json_decode($product['sizes'], true);
+            $product['colors'] = $product['colors'] ? json_decode($product['colors'], true) : null;
+            $product['sizes'] = $product['sizes'] ? json_decode($product['sizes'], true) : null;
             $product['inStock'] = (bool)$product['in_stock'];
             unset($product['in_stock']);
             return $product;

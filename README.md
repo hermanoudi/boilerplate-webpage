@@ -1,8 +1,8 @@
 # Boilerplate Webpage Generator
 
-Gerador de sites de vitrine virtual baseado no projeto **LL Magazine**. Cria rapidamente sites completos com backend PHP, MySQL e frontend responsivo.
+Gerador de sites de vitrine virtual. Cria rapidamente sites completos com backend PHP, MySQL e frontend responsivo.
 
-## 🚀 Características
+## Características
 
 - **Frontend**: HTML5, CSS3, JavaScript (ES6+) - Sem frameworks, sem build tools
 - **Backend**: PHP + MySQL com API REST
@@ -10,14 +10,14 @@ Gerador de sites de vitrine virtual baseado no projeto **LL Magazine**. Cria rap
 - **Integração**: WhatsApp para vendas
 - **Customização**: Cores personalizáveis via linha de comando
 
-## 📋 Requisitos
+## Requisitos
 
 - Python 3.6+
 - PHP 7.4+
 - MySQL 5.7+
 - Apache2 (opcional, para produção)
 
-## 🎯 Uso Rápido
+## Uso Rápido
 
 ### 1. Criar um novo projeto
 
@@ -52,7 +52,7 @@ Opções:
   --whatsapp NUMBER   Número WhatsApp (ex: 5534991234567)
 ```
 
-## 📦 O que é gerado
+## O que é gerado
 
 Após executar o script, você terá a seguinte estrutura:
 
@@ -64,8 +64,19 @@ minha-loja-page/
 ├── .htaccess              # Configuração Apache
 ├── 404.html / 500.html    # Páginas de erro
 ├── README.md              # Documentação do projeto
+├── admin/                 # Painel administrativo
+│   ├── login.html         # Login do admin
+│   ├── index.html         # Dashboard de produtos
+│   ├── css/
+│   │   └── admin.css      # Estilos do painel admin
+│   └── js/
+│       ├── admin.js       # JavaScript do dashboard
+│       └── login.js       # JavaScript do login
 ├── api/
-│   └── products.php       # API REST
+│   ├── products.php       # API REST pública
+│   └── admin/
+│       ├── products.php   # API CRUD de produtos
+│       └── upload.php     # Upload de imagens
 ├── assets/
 │   ├── css/
 │   │   └── style.css      # Estilos (com variáveis CSS)
@@ -74,12 +85,13 @@ minha-loja-page/
 │   └── images/
 │       └── products/      # Imagens dos produtos
 ├── database/
-│   ├── schema.sql         # Schema do banco
-│   └── seed.sql           # Dados iniciais
+│   ├── schema.sql         # Schema do banco (produtos)
+│   ├── seed.sql           # Dados iniciais
+│   └── admin_schema.sql   # Schema de usuários admin
 └── logs/                  # Logs da aplicação
 ```
 
-## 🛠️ Setup do Projeto Gerado
+## Setup do Projeto Gerado
 
 ### 1. Configurar ambiente
 
@@ -93,6 +105,7 @@ cp .env.example .env
 ```bash
 mysql -u root -p < database/schema.sql
 mysql -u root -p nome_do_banco < database/seed.sql
+mysql -u root -p nome_do_banco < database/admin_schema.sql
 ```
 
 ### 3. Iniciar servidor local
@@ -107,9 +120,12 @@ sudo ./setup-apache.sh
 
 ### 4. Acessar
 
-Abra no navegador: `http://localhost:8080`
+- Site: `http://localhost:8080`
+- Painel Admin: `http://localhost:8080/admin/login.html`
+  - Usuário padrão: `admin`
+  - Senha padrão: configurada no database (altere após primeiro login)
 
-## 🎨 Customização de Cores
+## Customização de Cores
 
 O script automaticamente converte a cor primária fornecida em variáveis CSS:
 
@@ -121,7 +137,7 @@ O script automaticamente converte a cor primária fornecida em variáveis CSS:
 }
 ```
 
-## 📱 Exemplos de Uso
+## Exemplos de Uso
 
 ### Loja de roupas (rosa)
 ```bash
@@ -144,31 +160,38 @@ O script automaticamente converte a cor primária fornecida em variáveis CSS:
   --company "Beleza Cosméticos"
 ```
 
-## 🗂️ Templates Incluídos
+## Templates Incluídos
 
 ### Frontend
-- ✅ Layout responsivo (mobile, tablet, desktop)
-- ✅ Sistema de categorias
-- ✅ Modal de produtos
-- ✅ Integração WhatsApp
-- ✅ Loading states
-- ✅ Error pages (404, 500)
+- Layout responsivo (mobile, tablet, desktop)
+- Sistema de categorias
+- Modal de produtos
+- Integração WhatsApp
+- Loading states
+- Error pages (404, 500)
+- Painel administrativo completo
+- Sistema de login com autenticação JWT
 
 ### Backend
-- ✅ API REST em PHP
-- ✅ CRUD de produtos
-- ✅ Filtros por categoria
-- ✅ Rate limiting
-- ✅ CORS configurado
-- ✅ Prepared statements (segurança)
+- API REST em PHP
+- CRUD completo de produtos (admin)
+- API pública de leitura
+- Filtros por categoria
+- Upload de imagens
+- Sistema de autenticação
+- Rate limiting
+- CORS configurado
+- Prepared statements (segurança)
 
 ### Database
-- ✅ Schema com foreign keys
-- ✅ Suporte a JSON (cores, tamanhos)
-- ✅ Índices otimizados
-- ✅ Seed data de exemplo
+- Schema com foreign keys
+- Suporte a JSON (cores, tamanhos)
+- Índices otimizados
+- Seed data de exemplo
+- Tabela de usuários administrativos
+- Hash de senhas com bcrypt
 
-## 🔧 Scripts Utilitários
+## Scripts Utilitários
 
 Cada projeto gerado inclui:
 
@@ -187,9 +210,9 @@ python3 create_images.py
 sudo ./setup-apache.sh
 ```
 
-## 📚 Estrutura da API
+## Estrutura da API
 
-### Endpoints
+### Endpoints Públicos
 
 ```
 GET  /api/products.php              # Todos os produtos
@@ -200,25 +223,42 @@ GET  /api/products/categories       # Todas as categorias
 POST /api/products.php              # Contact/Newsletter
 ```
 
-## 🔐 Segurança
+### Endpoints Admin (requer autenticação)
 
-- ✅ Sanitização de inputs
-- ✅ Prepared statements (PDO)
-- ✅ CSRF tokens
-- ✅ Rate limiting
-- ✅ Headers de segurança
-- ✅ .env não commitado no git
+```
+POST /api/admin/login.php           # Login administrativo
+GET  /api/admin/products.php        # Listar produtos (admin)
+POST /api/admin/products.php        # Criar produto
+PUT  /api/admin/products.php        # Atualizar produto
+DELETE /api/admin/products.php      # Deletar produto
+POST /api/admin/upload.php          # Upload de imagem
+```
 
-## 🚀 Deploy (Hostinger)
+## Segurança
+
+- Sanitização de inputs
+- Prepared statements (PDO)
+- JWT para autenticação admin
+- Hash de senhas com bcrypt
+- CSRF tokens
+- Rate limiting
+- Headers de segurança
+- .env não commitado no git
+- Validação de upload de arquivos
+
+## Deploy (Hostinger)
 
 1. Upload dos arquivos para `public_html/`
 2. Criar `.env` no servidor (copiar de `.env.example`)
-3. Importar schema: `database/schema.sql` via phpMyAdmin
-4. Importar seed: `database/seed.sql` via phpMyAdmin
-5. Verificar permissões: `logs/` = 777
-6. Ativar SSL/HTTPS no painel Hostinger
+3. Importar schemas via phpMyAdmin:
+   - `database/schema.sql`
+   - `database/seed.sql`
+   - `database/admin_schema.sql`
+4. Verificar permissões: `logs/` = 777, `assets/images/products/` = 755
+5. Ativar SSL/HTTPS no painel Hostinger
+6. Acessar painel admin e alterar senha padrão
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### "Database connection failed"
 - Verifique credenciais no `.env`
@@ -232,11 +272,11 @@ POST /api/products.php              # Contact/Newsletter
 - Verifique `WHATSAPP_NUMBER` no `.env`
 - Formato correto: `55DDD9XXXXXXXX` (sem espaços ou símbolos)
 
-## 📄 Licença
+## Licença
 
-Este boilerplate é baseado no projeto LL Magazine e está disponível para uso livre.
+Este boilerplate está disponível para uso livre.
 
-## 🤝 Contribuindo
+## Contribuindo
 
 Para melhorias no boilerplate:
 1. Edite os templates em `boilerplate-webpage/templates/`
@@ -246,5 +286,4 @@ Para melhorias no boilerplate:
 ---
 
 **Gerado por**: Boilerplate Webpage Generator
-**Baseado em**: LL Magazine Project
 **Versão**: 1.0.0

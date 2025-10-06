@@ -2,11 +2,11 @@
 
 Este guia mostra como criar um site completo do zero em menos de 5 minutos.
 
-## 📝 Cenário
+## Cenário
 
 Vamos criar uma loja virtual para "Zezinho Parafusos", uma loja de ferramentas com cor azul (#1e40af).
 
-## 🚀 Passo a Passo
+## Passo a Passo
 
 ### 1. Preparar o ambiente
 
@@ -30,24 +30,24 @@ cp ~/projetos/boilerplate-webpage/create_webpage.py .
 
 **Saída esperada:**
 ```
-📦 Criando projeto: zezinho-parafusos-page
-🏢 Empresa: Zezinho Parafusos
-🎨 Cor primária: #1e40af
-💾 Database: zezinho_parafusos_page_db
-📂 Destino: /home/user/projetos/zezinho-parafusos-page
+Criando projeto: zezinho-parafusos-page
+Empresa: Zezinho Parafusos
+Cor primária: #1e40af
+Database: zezinho_parafusos_page_db
+Destino: /home/user/projetos/zezinho-parafusos-page
 
-📝 Copiando arquivos template...
-  ✓ index.html
-  ✓ assets/css/style.css
-  ✓ assets/js/script.js
-  ✓ api/products.php
-  ✓ database/schema.sql
-  ✓ database/seed.sql
-  ✓ .env.example
-  ✓ config.php
+Copiando arquivos template...
+  - index.html
+  - assets/css/style.css
+  - assets/js/script.js
+  - api/products.php
+  - database/schema.sql
+  - database/seed.sql
+  - .env.example
+  - config.php
   ...
 
-✅ Projeto zezinho-parafusos-page criado com sucesso!
+Projeto zezinho-parafusos-page criado com sucesso!
 ```
 
 ### 3. Configurar ambiente
@@ -80,14 +80,10 @@ APP_ENV=development
 ### 4. Criar database
 
 ```bash
-# Login no MySQL
-mysql -u root -p
-
-# Criar database (já incluído no schema.sql)
+# Criar database e popular com dados
 mysql -u root -p < database/schema.sql
-
-# Popular com dados de exemplo
 mysql -u root -p zezinho_parafusos_page_db < database/seed.sql
+mysql -u root -p zezinho_parafusos_page_db < database/admin_schema.sql
 ```
 
 ### 5. Gerar imagens placeholder (opcional)
@@ -116,24 +112,24 @@ php -S localhost:8080
 
 **Saída esperada:**
 ```
-🧪 Testing Zezinho Parafusos Local Environment
+Testing Zezinho Parafusos Local Environment
 ==============================================
-1. Checking .env file... ✓
-2. Checking PHP server... ✓
-3. Testing API (GET all products)... ✓
+1. Checking .env file... OK
+2. Checking PHP server... OK
+3. Testing API (GET all products)... OK
    Found 6 products
-4. Testing API (GET config)... ✓
+4. Testing API (GET config)... OK
    WhatsApp: 5534991234567
-5. Testing API (GET single product)... ✓
-6. Testing database connection... ✓
+5. Testing API (GET single product)... OK
+6. Testing database connection... OK
 
-✅ All tests passed!
-🌐 Access your site at: http://localhost:8080
+All tests passed!
+Access your site at: http://localhost:8080
 ```
 
 ### 8. Acessar o site
 
-Abra no navegador: **http://localhost:8080**
+Site público: **http://localhost:8080**
 
 Você verá:
 - Header com logo "Zezinho Parafusos"
@@ -142,7 +138,20 @@ Você verá:
 - Grid de produtos com dados de exemplo
 - Integração com WhatsApp funcionando
 
-## 🎨 Customizações Comuns
+Painel administrativo: **http://localhost:8080/admin/login.html**
+
+Credenciais padrão:
+- Usuário: admin
+- Senha: configurada no database
+
+No painel admin você pode:
+- Visualizar todos os produtos
+- Criar novos produtos
+- Editar produtos existentes
+- Fazer upload de imagens
+- Deletar produtos
+
+## Customizações Comuns
 
 ### Alterar produtos
 

@@ -1,8 +1,8 @@
-# 🚀 Quick Start - Boilerplate Webpage
+# Quick Start - Boilerplate Webpage
 
-Crie um site completo em **3 comandos**.
+Crie um site completo em 3 comandos.
 
-## 📦 Uso Básico
+## Uso Básico
 
 ```bash
 # 1. Crie a pasta do projeto
@@ -15,16 +15,17 @@ cp /caminho/para/boilerplate-webpage/create_webpage.py .
 ./create_webpage.py minha-loja-page
 ```
 
-## 🎨 Com Customização
+## Com Customização
 
 ```bash
 ./create_webpage.py nome-do-projeto \
   --color "#1e40af" \
   --company "Nome da Empresa" \
-  --whatsapp "5534991234567"
+  --whatsapp "5534991234567" \
+  --project_name "nome_do_projeto" 
 ```
 
-## ⚙️ Setup Rápido
+## Setup Rápido
 
 ```bash
 # 1. Configurar
@@ -34,17 +35,22 @@ nano .env  # Edite DB e WhatsApp
 # 2. Database
 mysql -u root -p < database/schema.sql
 mysql -u root -p nome_do_banco < database/seed.sql
+mysql -u root -p nome_do_banco < database/admin_schema.sql
 
 # 3. Rodar
 php -S localhost:8080
+
+# 4. Acessar
+# Site: http://localhost:8080
+# Admin: http://localhost:8080/admin/login.html
 ```
 
-## 📚 Documentação Completa
+## Documentação Completa
 
 - **README.md** - Documentação completa do boilerplate
 - **EXAMPLE.md** - Exemplo passo a passo com Zezinho Parafusos
 
-## 🎯 Exemplos Rápidos
+## Exemplos Rápidos
 
 ### Loja de Roupas
 ```bash
@@ -61,7 +67,7 @@ php -S localhost:8080
 ./create_webpage.py cosmeticos-page --color "#9333ea" --company "Beleza & Cia"
 ```
 
-## 🔧 Scripts Incluídos
+## Scripts Incluídos
 
 Cada projeto gerado vem com:
 
@@ -77,18 +83,18 @@ python3 create_images.py
 ./test-local.sh
 ```
 
-## ✅ Checklist
+## Checklist
 
-- [ ] Criar pasta do projeto
-- [ ] Copiar `create_webpage.py`
-- [ ] Executar script com parâmetros
+- [ ] Executar script create_webpage.py com parâmetros
 - [ ] Copiar `.env.example` para `.env`
 - [ ] Editar credenciais MySQL no `.env`
-- [ ] Importar `schema.sql` e `seed.sql`
+- [ ] Importar `schema.sql`, `seed.sql` e `admin_schema.sql`
 - [ ] Iniciar `php -S localhost:8080`
-- [ ] Acessar `http://localhost:8080`
+- [ ] Acessar site em `http://localhost:8080`
+- [ ] Testar painel admin em `http://localhost:8080/admin/login.html`
+- [ ] Alterar senha padrão do admin
 
-## 🆘 Precisa de Ajuda?
+## Precisa de Ajuda?
 
 ```bash
 # Ver opções do script
@@ -100,5 +106,5 @@ python3 create_images.py
 
 ---
 
-**Tempo estimado**: 5 minutos ⏱️
-**Resultado**: Site completo e funcional! 🎉
+**Tempo estimado**: 5 minutos
+**Resultado**: Site completo e funcional com painel administrativo
