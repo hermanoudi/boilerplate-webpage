@@ -4,6 +4,7 @@
 let currentUser = null;
 let authToken = null;
 let products = [];
+let categories = [];
 let editingProductId = null;
 
 // Pagination variables
@@ -37,6 +38,9 @@ async function initializeAdmin() {
 
     // Update UI with user info
     document.getElementById('userName').textContent = currentUser.full_name || currentUser.username;
+
+    // Load categories first
+    await loadCategories();
 
     // Load products
     await loadProducts();
@@ -169,6 +173,44 @@ function logout() {
     localStorage.removeItem('admin_token');
     localStorage.removeItem('admin_user');
     window.location.href = 'login.html';
+}
+
+// Categories Management
+async function loadCategories() {
+    try {
+        // Use admin=1 to get ALL categories, including those without products
+        const response = await fetch('../api/products.php?categories=1&admin=1');
+        if (response.ok) {
+            categories = await response.json();
+            populateCategorySelect();
+        }
+    } catch (error) {
+        console.error('Failed to load categories:', error);
+        showAlert('Erro ao carregar categorias', 'error');
+    }
+}
+
+function populateCategorySelect() {
+    const categorySelect = document.getElementById('productCategory');
+    if (!categorySelect) return;
+
+    // Keep the first option (Selecione...)
+    const firstOption = categorySelect.querySelector('option[value=""]');
+    categorySelect.innerHTML = '';
+
+    if (firstOption) {
+        categorySelect.appendChild(firstOption);
+    }
+
+    // Add categories from database (skip "all" category)
+    categories.forEach(category => {
+        if (category.id !== 'all') {
+            const option = document.createElement('option');
+            option.value = category.id;
+            option.textContent = category.name;
+            categorySelect.appendChild(option);
+        }
+    });
 }
 
 // Products Management
