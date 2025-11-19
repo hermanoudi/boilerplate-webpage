@@ -350,14 +350,25 @@ function openWhatsApp(message = '') {
 function buyProduct(productId) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
-    
-    const message = `${CONFIG.whatsappMessage} ${product.name} - R$ ${product.price}`;
+
+    // Get category name
+    const category = categories.find(cat => cat.id === product.category);
+    const categoryName = category ? category.name : product.category;
+
+    // Build WhatsApp message with complete product details
+    const message = `${CONFIG.whatsappMessage}
+
+*${product.name}*
+Preço: R$ ${product.price}
+Categoria: ${categoryName}
+${product.description ? `\nDescrição: ${product.description}` : ''}`;
+
     openWhatsApp(message);
-    
+
     // Update cart count (visual feedback)
     cartCount++;
     updateCartCount();
-    
+
     // Close modal if open
     closeProductModal();
 }

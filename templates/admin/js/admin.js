@@ -23,7 +23,7 @@ async function initializeAdmin() {
     const userDataString = localStorage.getItem('admin_user');
 
     if (!authToken || !userDataString) {
-        window.location.href = 'login.html';
+        window.location.href = '/admin/login.html';
         return;
     }
 
@@ -51,7 +51,7 @@ async function initializeAdmin() {
 
 async function verifyToken() {
     try {
-        const response = await fetch('../api/auth.php', {
+        const response = await fetch('/api/auth.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -172,14 +172,14 @@ function switchPage(pageName) {
 function logout() {
     localStorage.removeItem('admin_token');
     localStorage.removeItem('admin_user');
-    window.location.href = 'login.html';
+    window.location.href = '/admin/login.html';
 }
 
 // Categories Management
 async function loadCategories() {
     try {
         // Use admin=1 to get ALL categories, including those without products
-        const response = await fetch('../api/products.php?categories=1&admin=1');
+        const response = await fetch('/api/products.php?categories=1&admin=1');
         if (response.ok) {
             categories = await response.json();
             populateCategorySelect();
@@ -217,7 +217,7 @@ function populateCategorySelect() {
 async function loadProducts() {
     showLoading(true);
     try {
-        const response = await fetch('../api/admin/products.php', {
+        const response = await fetch('/api/admin/products.php', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${authToken}`
@@ -492,7 +492,7 @@ async function uploadImage(file) {
     const formData = new FormData();
     formData.append('image', file);
 
-    const response = await fetch('../api/admin/upload.php', {
+    const response = await fetch('/api/admin/upload.php', {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${authToken}`
@@ -651,7 +651,7 @@ async function handleChangePassword(e) {
     showLoading(true);
 
     try {
-        const response = await fetch('../api/auth.php', {
+        const response = await fetch('/api/auth.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

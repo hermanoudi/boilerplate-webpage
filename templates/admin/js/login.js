@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const token = localStorage.getItem('admin_token');
     if (token) {
         // Verify token is still valid
-        fetch('../api/auth.php', {
+        fetch('/api/auth.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.success) {
                 // Token valid, redirect to dashboard
-                window.location.href = 'index.html';
+                window.location.href = '/admin/index.html';
             }
         })
         .catch(() => {
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
         errorMessage.style.display = 'none';
 
         try {
-            const response = await fetch('../api/auth.php', {
+            const response = await fetch('/api/auth.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.setItem('admin_user', JSON.stringify(data.user));
 
                 // Redirect to dashboard
-                window.location.href = 'index.html';
+                window.location.href = '/admin/index.html';
             } else {
                 // Show error message
                 showError(data.error || 'Erro ao fazer login. Verifique suas credenciais.');
