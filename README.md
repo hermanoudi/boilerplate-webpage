@@ -1,289 +1,291 @@
 # Boilerplate Webpage Generator
 
-Gerador de sites de vitrine virtual. Cria rapidamente sites completos com backend PHP, MySQL e frontend responsivo.
+**English** | [Português](README_pt-BR.md)
 
-## Características
+Virtual storefront website generator. Quickly creates complete websites with PHP backend, MySQL, and responsive frontend.
 
-- **Frontend**: HTML5, CSS3, JavaScript (ES6+) - Sem frameworks, sem build tools
-- **Backend**: PHP + MySQL com API REST
-- **Design**: Responsivo, mobile-first
-- **Integração**: WhatsApp para vendas
-- **Customização**: Cores personalizáveis via linha de comando
+## Features
 
-## Requisitos
+- **Frontend**: HTML5, CSS3, JavaScript (ES6+) - No frameworks, no build tools
+- **Backend**: PHP + MySQL with REST API
+- **Design**: Responsive, mobile-first
+- **Integration**: WhatsApp for sales
+- **Customization**: Customizable colors via command line
+
+## Requirements
 
 - Python 3.6+
 - PHP 7.4+
 - MySQL 5.7+
-- Apache2 (opcional, para produção)
+- Apache2 (optional, for production)
 
-## Uso Rápido
+## Quick Start
 
-### 1. Criar um novo projeto
+### 1. Create a new project
 
 ```bash
-# Crie uma pasta para o novo projeto
-mkdir minha-loja-page
-cd minha-loja-page
+# Create a folder for the new project
+mkdir my-store-page
+cd my-store-page
 
-# Copie o script gerador
+# Copy the generator script
 cp /path/to/boilerplate-webpage/create_webpage.py .
 
-# Execute o gerador
-./create_webpage.py minha-loja-page
+# Run the generator
+./create_webpage.py my-store-page
 ```
 
-### 2. Com customização de cor e nome
+### 2. With custom color and name
 
 ```bash
-./create_webpage.py zezinho-parafusos-page \
+./create_webpage.py johns-hardware-page \
   --color "#1e40af" \
-  --company "Zezinho Parafusos"
+  --company "John's Hardware Store"
 ```
 
-### 3. Parâmetros disponíveis
+### 3. Available parameters
 
 ```bash
 ./create_webpage.py PROJECT_NAME [OPTIONS]
 
-Opções:
-  --color COLOR       Cor primária em hex (ex: #dc2626)
-  --company NAME      Nome da empresa
-  --whatsapp NUMBER   Número WhatsApp (ex: 5534991234567)
+Options:
+  --color COLOR       Primary color in hex (e.g., #dc2626)
+  --company NAME      Company name
+  --whatsapp NUMBER   WhatsApp number (e.g., 5534991234567)
 ```
 
-## O que é gerado
+## What Gets Generated
 
-Após executar o script, você terá a seguinte estrutura:
+After running the script, you'll have the following structure:
 
 ```
-minha-loja-page/
-├── index.html              # Página principal
-├── config.php              # Configuração PHP
-├── .env.example            # Template de variáveis de ambiente
-├── .htaccess              # Configuração Apache
-├── 404.html / 500.html    # Páginas de erro
-├── README.md              # Documentação do projeto
-├── admin/                 # Painel administrativo
-│   ├── login.html         # Login do admin
-│   ├── index.html         # Dashboard de produtos
+my-store-page/
+├── index.html              # Main page
+├── config.php              # PHP configuration
+├── .env.example            # Environment variables template
+├── .htaccess              # Apache configuration
+├── 404.html / 500.html    # Error pages
+├── README.md              # Project documentation
+├── admin/                 # Admin panel
+│   ├── login.html         # Admin login
+│   ├── index.html         # Product dashboard
 │   ├── css/
-│   │   └── admin.css      # Estilos do painel admin
+│   │   └── admin.css      # Admin panel styles
 │   └── js/
-│       ├── admin.js       # JavaScript do dashboard
-│       └── login.js       # JavaScript do login
+│       ├── admin.js       # Dashboard JavaScript
+│       └── login.js       # Login JavaScript
 ├── api/
-│   ├── products.php       # API REST pública
+│   ├── products.php       # Public REST API
 │   └── admin/
-│       ├── products.php   # API CRUD de produtos
-│       └── upload.php     # Upload de imagens
+│       ├── products.php   # Product CRUD API
+│       └── upload.php     # Image upload
 ├── assets/
 │   ├── css/
-│   │   └── style.css      # Estilos (com variáveis CSS)
+│   │   └── style.css      # Styles (with CSS variables)
 │   ├── js/
 │   │   └── script.js      # JavaScript
 │   └── images/
-│       └── products/      # Imagens dos produtos
+│       └── products/      # Product images
 ├── database/
-│   ├── schema.sql         # Schema do banco (produtos)
-│   ├── seed.sql           # Dados iniciais
-│   └── admin_schema.sql   # Schema de usuários admin
-└── logs/                  # Logs da aplicação
+│   ├── schema.sql         # Database schema (products)
+│   ├── seed.sql           # Initial data
+│   └── admin_schema.sql   # Admin users schema
+└── logs/                  # Application logs
 ```
 
-## Setup do Projeto Gerado
+## Generated Project Setup
 
-### 1. Configurar ambiente
+### 1. Configure environment
 
 ```bash
 cp .env.example .env
-# Edite .env com suas credenciais MySQL e WhatsApp
+# Edit .env with your MySQL credentials and WhatsApp
 ```
 
-### 2. Criar database
+### 2. Create database
 
 ```bash
 mysql -u root -p < database/schema.sql
-mysql -u root -p nome_do_banco < database/seed.sql
-mysql -u root -p nome_do_banco < database/admin_schema.sql
+mysql -u root -p database_name < database/seed.sql
+mysql -u root -p database_name < database/admin_schema.sql
 ```
 
-### 3. Iniciar servidor local
+### 3. Start local server
 
 ```bash
-# PHP built-in server (recomendado para desenvolvimento)
+# PHP built-in server (recommended for development)
 php -S localhost:8080
 
-# OU Apache (para produção)
+# OR Apache (for production)
 sudo ./setup-apache.sh
 ```
 
-### 4. Acessar
+### 4. Access
 
-- Site: `http://localhost:8080`
-- Painel Admin: `http://localhost:8080/admin/login.html`
-  - Usuário padrão: `admin`
-  - Senha padrão: configurada no database (altere após primeiro login)
+- Website: `http://localhost:8080`
+- Admin Panel: `http://localhost:8080/admin/login.html`
+  - Default user: `admin`
+  - Default password: configured in database (change after first login)
 
-## Customização de Cores
+## Color Customization
 
-O script automaticamente converte a cor primária fornecida em variáveis CSS:
+The script automatically converts the provided primary color into CSS variables:
 
 ```css
 :root {
-    --primary-color: #1e40af;        /* Sua cor */
-    --primary-color-dark: #1530ab;   /* Auto-gerada (mais escura) */
-    --primary-color-light: #1e40af1a; /* Com transparência */
+    --primary-color: #1e40af;        /* Your color */
+    --primary-color-dark: #1530ab;   /* Auto-generated (darker) */
+    --primary-color-light: #1e40af1a; /* With transparency */
 }
 ```
 
-## Exemplos de Uso
+## Usage Examples
 
-### Loja de roupas (rosa)
+### Clothing store (pink)
 ```bash
 ./create_webpage.py boutique-elegance-page \
   --color "#ec4899" \
   --company "Boutique Elegance"
 ```
 
-### Loja de ferramentas (azul)
+### Hardware store (blue)
 ```bash
-./create_webpage.py ferramentas-zezinho-page \
+./create_webpage.py johns-hardware-page \
   --color "#1e40af" \
-  --company "Zezinho Parafusos"
+  --company "John's Hardware Store"
 ```
 
-### Loja de cosméticos (roxo)
+### Cosmetics store (purple)
 ```bash
-./create_webpage.py beleza-cosmeticos-page \
+./create_webpage.py beauty-cosmetics-page \
   --color "#9333ea" \
-  --company "Beleza Cosméticos"
+  --company "Beauty Cosmetics"
 ```
 
-## Templates Incluídos
+## Included Templates
 
 ### Frontend
-- Layout responsivo (mobile, tablet, desktop)
-- Sistema de categorias
-- Modal de produtos
-- Integração WhatsApp
+- Responsive layout (mobile, tablet, desktop)
+- Category system
+- Product modal
+- WhatsApp integration
 - Loading states
 - Error pages (404, 500)
-- Painel administrativo completo
-- Sistema de login com autenticação JWT
+- Complete admin panel
+- Login system with JWT authentication
 
 ### Backend
-- API REST em PHP
-- CRUD completo de produtos (admin)
-- API pública de leitura
-- Filtros por categoria
-- Upload de imagens
-- Sistema de autenticação
+- REST API in PHP
+- Complete product CRUD (admin)
+- Public read API
+- Category filters
+- Image upload
+- Authentication system
 - Rate limiting
-- CORS configurado
-- Prepared statements (segurança)
+- CORS configured
+- Prepared statements (security)
 
 ### Database
-- Schema com foreign keys
-- Suporte a JSON (cores, tamanhos)
-- Índices otimizados
-- Seed data de exemplo
-- Tabela de usuários administrativos
-- Hash de senhas com bcrypt
+- Schema with foreign keys
+- JSON support (colors, sizes)
+- Optimized indexes
+- Sample seed data
+- Administrative users table
+- Bcrypt password hashing
 
-## Scripts Utilitários
+## Utility Scripts
 
-Cada projeto gerado inclui:
+Each generated project includes:
 
-- **create_images.py** - Gera imagens placeholder para produtos
-- **test-local.sh** - Testa API e conectividade
-- **setup-apache.sh** - Configura Apache virtual host
+- **create_images.py** - Generates placeholder images for products
+- **test-local.sh** - Tests API and connectivity
+- **setup-apache.sh** - Configures Apache virtual host
 
 ```bash
-# Gerar imagens placeholder
+# Generate placeholder images
 python3 create_images.py
 
-# Testar ambiente
+# Test environment
 ./test-local.sh
 
-# Configurar Apache
+# Configure Apache
 sudo ./setup-apache.sh
 ```
 
-## Estrutura da API
+## API Structure
 
-### Endpoints Públicos
+### Public Endpoints
 
 ```
-GET  /api/products.php              # Todos os produtos
-GET  /api/products.php?category=X   # Filtrar por categoria
-GET  /api/products.php?config=1     # Configuração (WhatsApp)
-GET  /api/products/{id}             # Produto específico
-GET  /api/products/categories       # Todas as categorias
+GET  /api/products.php              # All products
+GET  /api/products.php?category=X   # Filter by category
+GET  /api/products.php?config=1     # Configuration (WhatsApp)
+GET  /api/products/{id}             # Specific product
+GET  /api/products/categories       # All categories
 POST /api/products.php              # Contact/Newsletter
 ```
 
-### Endpoints Admin (requer autenticação)
+### Admin Endpoints (requires authentication)
 
 ```
-POST /api/admin/login.php           # Login administrativo
-GET  /api/admin/products.php        # Listar produtos (admin)
-POST /api/admin/products.php        # Criar produto
-PUT  /api/admin/products.php        # Atualizar produto
-DELETE /api/admin/products.php      # Deletar produto
-POST /api/admin/upload.php          # Upload de imagem
+POST /api/admin/login.php           # Admin login
+GET  /api/admin/products.php        # List products (admin)
+POST /api/admin/products.php        # Create product
+PUT  /api/admin/products.php        # Update product
+DELETE /api/admin/products.php      # Delete product
+POST /api/admin/upload.php          # Image upload
 ```
 
-## Segurança
+## Security
 
-- Sanitização de inputs
+- Input sanitization
 - Prepared statements (PDO)
-- JWT para autenticação admin
-- Hash de senhas com bcrypt
+- JWT for admin authentication
+- Bcrypt password hashing
 - CSRF tokens
 - Rate limiting
-- Headers de segurança
-- .env não commitado no git
-- Validação de upload de arquivos
+- Security headers
+- .env not committed to git
+- File upload validation
 
 ## Deploy (Hostinger)
 
-1. Upload dos arquivos para `public_html/`
-2. Criar `.env` no servidor (copiar de `.env.example`)
-3. Importar schemas via phpMyAdmin:
+1. Upload files to `public_html/`
+2. Create `.env` on server (copy from `.env.example`)
+3. Import schemas via phpMyAdmin:
    - `database/schema.sql`
    - `database/seed.sql`
    - `database/admin_schema.sql`
-4. Verificar permissões: `logs/` = 777, `assets/images/products/` = 755
-5. Ativar SSL/HTTPS no painel Hostinger
-6. Acessar painel admin e alterar senha padrão
+4. Check permissions: `logs/` = 777, `assets/images/products/` = 755
+5. Enable SSL/HTTPS in Hostinger panel
+6. Access admin panel and change default password
 
 ## Troubleshooting
 
 ### "Database connection failed"
-- Verifique credenciais no `.env`
-- Confirme que o banco existe: `mysql -u root -p -e "SHOW DATABASES;"`
+- Check credentials in `.env`
+- Confirm database exists: `mysql -u root -p -e "SHOW DATABASES;"`
 
 ### "API returns 404"
-- Verifique se `.htaccess` existe
-- Teste com PHP server: `php -S localhost:8080`
+- Check if `.htaccess` exists
+- Test with PHP server: `php -S localhost:8080`
 
-### "WhatsApp não abre"
-- Verifique `WHATSAPP_NUMBER` no `.env`
-- Formato correto: `55DDD9XXXXXXXX` (sem espaços ou símbolos)
+### "WhatsApp doesn't open"
+- Check `WHATSAPP_NUMBER` in `.env`
+- Correct format: `55DDD9XXXXXXXX` (no spaces or symbols)
 
-## Licença
+## License
 
-Este boilerplate está disponível para uso livre.
+This boilerplate is available for free use.
 
-## Contribuindo
+## Contributing
 
-Para melhorias no boilerplate:
-1. Edite os templates em `boilerplate-webpage/templates/`
-2. Teste gerando um novo projeto
-3. Documente as mudanças
+To improve the boilerplate:
+1. Edit templates in `boilerplate-webpage/templates/`
+2. Test by generating a new project
+3. Document changes
 
 ---
 
-**Gerado por**: Boilerplate Webpage Generator
-**Versão**: 1.0.0
+**Generated by**: Boilerplate Webpage Generator
+**Version**: 1.0.0
